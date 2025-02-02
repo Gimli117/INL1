@@ -47,7 +47,7 @@ namespace MenuTemplateForINL1.Models
                         default:
                             Console.Clear();
 
-                            Console.WriteLine("Enter your name:");                                      // 11: Namn och adress ska gå att fylla i
+                            Console.WriteLine("Enter your name:");
                             string? name = Console.ReadLine();
                             Console.Clear();
 
@@ -179,7 +179,9 @@ namespace MenuTemplateForINL1.Models
                                     ShoppingCart.sum += 100;
                                 }
 
-                                Console.WriteLine($"You currently have these items with a total sum of {ShoppingCart.sum}kr\n");    // 13: Produkterna visas med pris // 14: Pris med frakt samt moms visas 
+                                float vat = ShoppingCart.sum * 0.25f;
+
+                                Console.WriteLine($"You currently have these items with a total sum of {ShoppingCart.sum}kr (VAT 25% included: {vat})\n");
 
                                 for (int i = 0; i < Program.itemList.Count; i++)
                                 {
@@ -205,9 +207,9 @@ namespace MenuTemplateForINL1.Models
                                 {
                                     paymentMethod = int.Parse(paymentKey.KeyChar.ToString());
 
-                                    if (paymentMethod == 1)                                               // 15: Minst två val av betalningsmetod
+                                    if (paymentMethod == 1)
                                     {
-                                        Console.WriteLine("Enter your Cardholder Name:");                                      // 11: Namn och adress ska gå att fylla i
+                                        Console.WriteLine("Enter your Cardholder Name:");
                                         string? cardName = Console.ReadLine();
                                         Console.Clear();
 
@@ -280,7 +282,7 @@ namespace MenuTemplateForINL1.Models
             }
         }
 
-        public static void PaymentDone(int shipping, int payment, int cusId)                   // 16: Varukorgen ska tömmas här och kunden + kundinfo ska sparas, även hela beställningen sparas
+        public static void PaymentDone(int shipping, int payment, int cusId)
         {
             using (var db = new Models.MyDbContext())
             {
