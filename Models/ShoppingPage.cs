@@ -115,7 +115,7 @@ namespace MenuTemplateForINL1.Models
                             case ConsoleKey.D5:
                                 while (!loop)
                                 {
-                                    Console.WriteLine("Please Type a tag for the item you're looking for. Type Q to return to the menu or type exit to quit the Webshop.\n");          // 5: Möjlighet att fritextsöka (DAPPER)
+                                    Console.WriteLine("Please Type a tag for the item you're looking for. Type Q to return to the menu");          // 5: Möjlighet att fritextsöka (DAPPER)
 
                                     string? tag = Console.ReadLine();
 
@@ -132,45 +132,47 @@ namespace MenuTemplateForINL1.Models
                                         }
                                     }
 
-                                    if (tag == "Q")
+                                    if (tag == "q")
                                     {
                                         loop = true;
                                     }
-
-                                    Console.WriteLine("\n\nSelect an Item Id to purchase that item. Press Enter to go back.");
-
-                                    string? searchSelect = Console.ReadLine();
-
-                                    Console.Clear();
-
-                                    if (int.TryParse(searchSelect, out int id))
+                                    else
                                     {
-                                        var selectSearch = Program.itemList.FirstOrDefault(m => m.Id == id);
+                                        Console.WriteLine("\n\nSelect an Item Id to purchase that item. Press Enter to go back.");
 
-                                        if (selectSearch != null)
+                                        string? searchSelect = Console.ReadLine();
+
+                                        Console.Clear();
+
+                                        if (int.TryParse(searchSelect, out int id))
                                         {
-                                            Console.Clear();
-                                            selectSearch.Quantity++;
-                                            selectSearch.Inventory--;
-                                            ShoppingCart.sum += selectSearch.Price;
-                                            Console.WriteLine($"Quantity of your {selectSearch.Name} is now: {selectSearch.Quantity}");
+                                            var selectSearch = Program.itemList.FirstOrDefault(m => m.Id == id);
+
+                                            if (selectSearch != null)
+                                            {
+                                                Console.Clear();
+                                                selectSearch.Quantity++;
+                                                selectSearch.Inventory--;
+                                                ShoppingCart.sum += selectSearch.Price;
+                                                Console.WriteLine($"Quantity of your {selectSearch.Name} is now: {selectSearch.Quantity}");
+                                                Thread.Sleep(2000);
+                                                Console.Clear();
+                                                loop = true;
+                                            }
+                                            else
+                                            {
+                                                Console.Clear();
+                                                Console.WriteLine("Item does not exist (please select 1-15).");
+                                                Thread.Sleep(2000);
+                                                Console.Clear();
+                                            }
+                                        }
+                                        else if (searchSelect == "Enter")
+                                        {
+                                            Console.WriteLine("Returning to menu.");
                                             Thread.Sleep(2000);
-                                            Console.Clear();
                                             loop = true;
                                         }
-                                        else
-                                        {
-                                            Console.Clear();
-                                            Console.WriteLine("Item does not exist (please select 1-15).");
-                                            Thread.Sleep(2000);
-                                            Console.Clear();
-                                        }
-                                    }
-                                    else if (searchSelect == "Enter")
-                                    {
-                                        Console.WriteLine("Returning to menu.");
-                                        Thread.Sleep(2000);
-                                        loop = true;
                                     }
                                 }
                                 break;

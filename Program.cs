@@ -173,7 +173,7 @@ namespace MenuTemplateForINL1
                 //        Supplier = "FunCraft",
                 //        Quantity = 0,
                 //        Inventory = 70,
-                //        IsSelectedByAdmin = false,
+                //        IsSelectedByAdmin = true,
                 //    },
 
                 //    new Item
@@ -181,12 +181,12 @@ namespace MenuTemplateForINL1
                 //        //Id = 12,
                 //        Name = "Glass Coaster",
                 //        Description = "See-Through Coaster made from ordinary glass.",
-                //        Tag = new List<string> { "special", "glass", "transparent" },
+                //        Tag = new List<string> { "special", "glass", "clear" },
                 //        Price = 200,
                 //        Supplier = "CustomCraft",
                 //        Quantity = 0,
                 //        Inventory = 25,
-                //        IsSelectedByAdmin = false,
+                //        IsSelectedByAdmin = true,
                 //    },
 
                 //    new Item
@@ -212,7 +212,7 @@ namespace MenuTemplateForINL1
                 //        Supplier = "GemCraft",
                 //        Quantity = 0,
                 //        Inventory = 20,
-                //        IsSelectedByAdmin = false,
+                //        IsSelectedByAdmin = true,
                 //    },
 
                 //    new Item

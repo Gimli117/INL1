@@ -17,7 +17,7 @@ namespace MenuTemplateForINL1.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)       // Entity Framework, AZURE FreeDB (gimlidb/FreeDB)
         {
             optionsBuilder.UseSqlServer("Server = tcp:gimlidb.database.windows.net, 1433; Initial Catalog = FreeDB; Persist Security Info = False; User ID = gimli117;" +
-                "Password =DrunkDwarf117; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = True; Connection Timeout = 30;");
+                "Password =DrunkDwarf117; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = True;", options => options.EnableRetryOnFailure());
         }     
     }
 }

@@ -15,7 +15,8 @@ namespace MenuTemplateForINL1.Models
 {
     internal class Admin
     {
-        public static string connString = "data source=.\\SQLEXPRESS; initial catalog = WebshopDemo; TrustServerCertificate=true; persist security info = True; Integrated Security = True;";   //Dapper
+        public static string connString = ("Server = tcp:gimlidb.database.windows.net, 1433; Initial Catalog = FreeDB; Persist Security Info = False; User ID = gimli117;" +
+                "Password =DrunkDwarf117; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = True;");                                                           //Dapper
         public static void Run()
         {
             bool quit = false;
@@ -108,7 +109,7 @@ namespace MenuTemplateForINL1.Models
 
                             switch (key.Key)
                             {
-                                case ConsoleKey.D1:                                                                 // Name
+                                case ConsoleKey.D1:                                                                     // Name
                                     Console.WriteLine($"Current Name: {selectedItem.Name}\n");
                                     Console.WriteLine("Enter new Name. Press Enter to go back.\n");
                                     string? newName = Console.ReadLine();
@@ -125,7 +126,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D2:                                                                 // Description
+                                case ConsoleKey.D2:                                                                     // Description
                                     Console.WriteLine($"Current Description: {selectedItem.Description}\n");
                                     Console.WriteLine("Enter new Description. Press Enter to go back.\n");
                                     string? newDescription = Console.ReadLine();
@@ -142,7 +143,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D3:                                                                 // Tag
+                                case ConsoleKey.D3:                                                                     // Tags
                                     while (!goBack)
                                     {
                                         Console.Clear();
@@ -221,7 +222,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D4:                                                                 // Price
+                                case ConsoleKey.D4:                                                                     // Price
                                     Console.WriteLine($"Current Price: {selectedItem.Price}\n");
                                     Console.WriteLine("Enter new Price. Press Enter to go back.\n");
                                     string? newPrice = Console.ReadLine();
@@ -244,7 +245,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D5:                                                                 // Supplier
+                                case ConsoleKey.D5:                                                                     // Supplier
                                     Console.WriteLine($"Current Supplier: {selectedItem.Supplier}\n");
                                     Console.WriteLine("Enter new Supplier\n");
                                     string? newSupplier = Console.ReadLine();
@@ -261,7 +262,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D6:                                                                 // Inventory
+                                case ConsoleKey.D6:                                                                     // Inventory
                                     Console.WriteLine($"Current Inventory: {selectedItem.Inventory}\n");
                                     Console.WriteLine("Enter new Inventory\n");
                                     string? newInventory = Console.ReadLine();
@@ -284,7 +285,7 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     break;
 
-                                case ConsoleKey.D7:                                                                 // IsSelectedByAdmin
+                                case ConsoleKey.D7:                                                                     // IsSelectedByAdmin
                                     Console.WriteLine($"Currently selected: {selectedItem.IsSelectedByAdmin}\n\n");
                                     Console.WriteLine("Select or Deselect this item\n");
                                     Console.WriteLine("Press Enter to invert this setting");
@@ -307,7 +308,7 @@ namespace MenuTemplateForINL1.Models
                                             selectedItem.IsSelectedByAdmin = false;
                                             Program.itemList[selectedItem.Id - 1].IsSelectedByAdmin = false;
                                         }
-                                        else if (!selectedItem.IsSelectedByAdmin && count < 3)
+                                        else if (!selectedItem.IsSelectedByAdmin && count < 3)                      // Maximum of 3 items on the Front Page
                                         {
                                             selectedItem.IsSelectedByAdmin = true;
                                             Program.itemList[selectedItem.Id - 1].IsSelectedByAdmin = true;
