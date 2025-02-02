@@ -75,9 +75,10 @@ namespace MenuTemplateForINL1.Models
                     Console.WriteLine("Item Management. Choose an item from the list to edit. Type Q to go back or type exit to quit. Type S to save changes.\n");
                     Console.WriteLine("Listing all items here...\n");
 
+                    Console.WriteLine("Id".PadRight(5) + "\t" + "Name".PadRight(30) + "\t" + "Tags".PadRight(35) + "\t" + "Price".PadRight(15) + "\t" + "Stock".PadRight(10) + "\n");
                     foreach (var item in Program.itemList)
                     {
-                        Console.WriteLine($"{item.Id}: {item.Name}");
+                        Console.WriteLine($"{item.Id.ToString().PadRight(5)}\t{item.Name.PadRight(30)}\t{item.Tag[0]}, {item.Tag[1]}, {item.Tag[2].PadRight(20)}\t{item.Price.ToString().PadRight(15)}\t{item.Status} ({item.Inventory})");
                     }
 
                     Console.WriteLine();
@@ -122,7 +123,7 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Name = newName;
-                                        Program.itemList[selectedItem.Id].Name = newName;
+                                        Program.itemList[selectedItem.Id-1].Name = newName;
                                     }
                                     break;
 
@@ -139,7 +140,7 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Description = newDescription;
-                                        Program.itemList[selectedItem.Id].Description = newDescription;
+                                        Program.itemList[selectedItem.Id-1].Description = newDescription;
                                     }
                                     break;
 
@@ -235,7 +236,7 @@ namespace MenuTemplateForINL1.Models
                                     else if (int.TryParse(newPrice, out int price))
                                     {
                                         selectedItem.Price = price;
-                                        Program.itemList[selectedItem.Id].Price = price;
+                                        Program.itemList[selectedItem.Id-1].Price = price;
                                     }
                                     else
                                     {
@@ -258,7 +259,7 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Supplier = newSupplier;
-                                        Program.itemList[selectedItem.Id].Supplier = newSupplier;
+                                        Program.itemList[selectedItem.Id-1].Supplier = newSupplier;
                                     }
                                     break;
 
@@ -275,7 +276,7 @@ namespace MenuTemplateForINL1.Models
                                     else if (int.TryParse(newInventory, out int inventory))
                                     {
                                         selectedItem.Inventory = inventory;
-                                        Program.itemList[selectedItem.Id].Inventory = inventory;
+                                        Program.itemList[selectedItem.Id-1].Inventory = inventory;
                                     }
                                     else
                                     {
@@ -306,12 +307,12 @@ namespace MenuTemplateForINL1.Models
                                         if (selectedItem.IsSelectedByAdmin)
                                         {
                                             selectedItem.IsSelectedByAdmin = false;
-                                            Program.itemList[selectedItem.Id - 1].IsSelectedByAdmin = false;
+                                            Program.itemList[selectedItem.Id-1].IsSelectedByAdmin = false;
                                         }
                                         else if (!selectedItem.IsSelectedByAdmin && count < 3)                      // Maximum of 3 items on the Front Page
                                         {
                                             selectedItem.IsSelectedByAdmin = true;
-                                            Program.itemList[selectedItem.Id - 1].IsSelectedByAdmin = true;
+                                            Program.itemList[selectedItem.Id-1].IsSelectedByAdmin = true;
                                         }
                                         else
                                         {
