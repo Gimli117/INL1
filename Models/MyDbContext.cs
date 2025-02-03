@@ -14,7 +14,7 @@ namespace MenuTemplateForINL1.Models
         public DbSet<PreviousOrder> PreviousOrders { get; set; }        // All completed orders which should include Order ID, which customer who made the purchase as well as purchased items
         public DbSet<CardPaymentInfo> CardPaymentInfo { get; set; }     // Payment info for each customer
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)       // Entity Framework, AZURE FreeDB (gimlidb/FreeDB)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)       // Entity Framework, AZURE FreeDB, server gimlidb
         {
             optionsBuilder.UseSqlServer("Server = tcp:gimlidb.database.windows.net, 1433; Initial Catalog = FreeDB; Persist Security Info = False; User ID = gimli117;" +
                 "Password =DrunkDwarf117; MultipleActiveResultSets = False; Encrypt = True; TrustServerCertificate = True;", options => options.EnableRetryOnFailure());
