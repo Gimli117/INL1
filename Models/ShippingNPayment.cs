@@ -136,147 +136,110 @@ namespace MenuTemplateForINL1.Models
 
         public static void Payment(int shipping, int cusId)                                     
         {
-            bool quit = false;
             int paymentMethod;
+            bool loop = true;
 
             using (var db = new Models.MyDbContext())
             {
-                while (!quit && !Program.exit)
+                if (shipping == 1)
                 {
-                    bool pay = true;
+                    Console.WriteLine("Standard Shipping\n");
+                }
+                else if (shipping == 2)
+                {
+                    Console.WriteLine("Early Bird (100SEK)\n");
+                    ShoppingCart.sum += 100;
+                }
 
-                    Console.WriteLine("Payment Details for your order\n");
-                    Console.WriteLine("Press Enter to continue");
-                    Console.WriteLine("Q - Go back to the Shopping Cart");
-                    Console.WriteLine("ESC - Exits the Webshop");
+                float vat = ShoppingCart.sum * 0.25f;
 
-                    ConsoleKeyInfo key = Console.ReadKey(true);
+                while (loop)
+                {
+                    Console.WriteLine("Payment Details for your order\n\n");
 
-                    switch (key.Key)
+                    Console.Clear();
+
+                    Console.WriteLine($"You currently have these items with a total sum of {ShoppingCart.sum}kr (VAT 25% included: {vat})\n");
+
+                    for (int i = 0; i < Program.itemList.Count; i++)
                     {
-                        case ConsoleKey.Q:
-                            quit = true;
-                            break;
+                        if (Program.itemList[i].Quantity > 0)
+                        {
+                            Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name} ({Program.itemList[i].Quantity})");
 
-                        case ConsoleKey.Escape:
-                            quit = true;
-                            Program.exit = true;
-                            break;
+                            var item = db.Items.FirstOrDefault(c => c.Id == Program.itemList[i].Id);
 
-                        default:
+                            item.Inventory = Program.itemList[i].Inventory;
+                        }
+                    }
 
+
+                    Console.WriteLine("\nHow would you like to pay?\n\n");
+                    Console.WriteLine("1 - Card Payment");
+                    Console.WriteLine("2 - Invoice to your address");
+
+                    ConsoleKeyInfo paymentKey = Console.ReadKey(true);
+
+                    Console.Clear();
+
+                    if (char.IsDigit(paymentKey.KeyChar))
+                    {
+                        paymentMethod = int.Parse(paymentKey.KeyChar.ToString());
+
+                        if (paymentMethod == 1)
+                        {
+                            Console.WriteLine("Enter your Cardholder Name:");
+                            string? cardName = Console.ReadLine();
                             Console.Clear();
 
-                            while (pay)
+                            Console.WriteLine("Enter your Card Number:");
+                            string? cardNumber = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the Expiry Date:");
+                            string? expiryDate = Console.ReadLine();
+                            Console.Clear();
+
+                            Console.WriteLine("Enter the CVC (3 numbers on the back of the card):");
+                            string? cvc = Console.ReadLine();
+                            Console.Clear();
+
+                            var newCardPaymentInfo = new Models.CardPaymentInfo
                             {
-                                if (shipping == 1)
-                                {
-                                    Console.WriteLine("Standard Shipping\n");
-                                }
-                                else if (shipping == 2)
-                                {
-                                    Console.WriteLine("Early Bird (100SEK)\n");
-                                    ShoppingCart.sum += 100;
-                                }
+                                CardName = cardName,
+                                CardNumber = cardNumber,
+                                ExpiryDate = expiryDate,
+                                CVC = cvc,
+                                CustomerId = cusId,
+                            };
 
-                                float vat = ShoppingCart.sum * 0.25f;
+                            db.CardPaymentInfo.Add(newCardPaymentInfo);
 
-                                Console.WriteLine($"You currently have these items with a total sum of {ShoppingCart.sum}kr (VAT 25% included: {vat})\n");
+                            PaymentDone(shipping, paymentMethod, cusId);
 
-                                for (int i = 0; i < Program.itemList.Count; i++)
-                                {
-                                    if (Program.itemList[i].Quantity > 0)
-                                    {
-                                        Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name} ({Program.itemList[i].Quantity})");
+                            loop = false;
+                        }
+                        else if (paymentMethod == 2)
+                        {
+                            PaymentDone(shipping, paymentMethod, cusId);
 
-                                        var item = db.Items.FirstOrDefault(c => c.Id == Program.itemList[i].Id);
+                            loop = false;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Input. Please select 1 or 2.");
+                        Thread.Sleep(2000);
+                        Console.Clear();
+                    }
 
-                                        item.Inventory = Program.itemList[i].Inventory;
-                                    }
-                                }
-
-                                Console.WriteLine("\nHow would you like to pay?\n\n");
-                                Console.WriteLine("1 - Card Payment");
-                                Console.WriteLine("2 - Invoice to your address");
-
-                                ConsoleKeyInfo paymentKey = Console.ReadKey(true);
-
-                                Console.Clear();
-
-                                if (char.IsDigit(paymentKey.KeyChar))
-                                {
-                                    paymentMethod = int.Parse(paymentKey.KeyChar.ToString());
-
-                                    if (paymentMethod == 1)
-                                    {
-                                        Console.WriteLine("Enter your Cardholder Name:");
-                                        string? cardName = Console.ReadLine();
-                                        Console.Clear();
-
-                                        Console.WriteLine("Enter your Card Number:");
-                                        string? cardNumber = Console.ReadLine();
-                                        Console.Clear();
-
-                                        Console.WriteLine("Enter the Expiry Date:");
-                                        string? expiryDate = Console.ReadLine();
-                                        Console.Clear();
-
-                                        Console.WriteLine("Enter the CVC (3 numbers on the back of the card):");
-                                        string? cvc = Console.ReadLine();
-                                        Console.Clear();
-
-                                        var newCardPaymentInfo = new Models.CardPaymentInfo
-                                        {
-                                            CardName = cardName,
-                                            CardNumber = cardNumber,
-                                            ExpiryDate = expiryDate,
-                                            CVC = cvc,
-                                            CustomerId = cusId,
-                                        };
-
-                                        db.CardPaymentInfo.Add(newCardPaymentInfo);
-
-                                        try
-                                        {
-                                            db.SaveChanges();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine(ex.InnerException.Message);
-                                        }
-
-                                        PaymentDone(shipping, paymentMethod, cusId);
-                                        pay = false;
-                                    }
-                                    else if (paymentMethod == 2)
-                                    {
-                                        try
-                                        {
-                                            db.SaveChanges();
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine(ex.InnerException.Message);
-                                        }
-
-                                        PaymentDone(shipping, paymentMethod, cusId);
-                                        pay = false;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Not an option.");
-                                        Thread.Sleep(2000);
-                                        Console.Clear();
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid Input. Please select 1 or 2.");
-                                    Thread.Sleep(2000);
-                                    Console.Clear();
-                                }
-                            }
-                            break;
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.InnerException.Message);
                     }
                 }
             }
