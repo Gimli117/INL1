@@ -75,10 +75,10 @@ namespace MenuTemplateForINL1.Models
                     Console.WriteLine("Item Management. Choose an item from the list to edit. Type Q to go back or type exit to quit. Type S to save changes.\n");
                     Console.WriteLine("Listing all items here...\n");
 
-                    Console.WriteLine("Id".PadRight(5) + "\t" + "Name".PadRight(30) + "\t" + "Tags".PadRight(35) + "\t" + "Price".PadRight(15) + "\t" + "Stock".PadRight(10) + "\n");
+                    Console.WriteLine("Id".PadRight(5) + "\t" + "Name".PadRight(30) + "\t" + "Tags".PadRight(35) + "\t" + "Price".PadRight(15) + "\t" + "Stock".PadRight(10) + "\t\t" + "IsSelected" + "\n");
                     foreach (var item in Program.itemList)
                     {
-                        Console.WriteLine($"{item.Id.ToString().PadRight(5)}\t{item.Name.PadRight(30)}\t{item.Tag[0]}, {item.Tag[1]}, {item.Tag[2].PadRight(20)}\t{item.Price.ToString().PadRight(15)}\t{item.Status} ({item.Inventory})");
+                        Console.WriteLine($"{item.Id.ToString().PadRight(5)}\t{item.Name.PadRight(30)}\t{item.Tag[0]}, {item.Tag[1]}, {item.Tag[2].PadRight(20)}\t{item.Price.ToString().PadRight(15)}\t{item.Status} ({item.Inventory})\t\t{item.IsSelectedByAdmin}");
                     }
 
                     Console.WriteLine();
