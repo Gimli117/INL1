@@ -108,7 +108,7 @@ namespace MenuTemplateForINL1.Models
             }
         }
 
-        public static int CreateCustomer(string name, string city, string postal, string street)
+        public static int CreateCustomer(string? name, string? city, string? postal, string? street)
         {
             using (var db = new Models.MyDbContext())
             {
@@ -119,7 +119,7 @@ namespace MenuTemplateForINL1.Models
                     Postal = postal,
                     Street = street,
                 };
-                db.Customers.Add(customer);
+                db.INL1Customers.Add(customer);
 
                 try
                 {
@@ -127,7 +127,7 @@ namespace MenuTemplateForINL1.Models
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.InnerException.Message);
+                    Console.WriteLine(ex.InnerException?.Message);
                 }
 
                 return customer.Id;
@@ -141,6 +141,7 @@ namespace MenuTemplateForINL1.Models
 
             using (var db = new Models.MyDbContext())
             {
+                var paymentItems = ItemStore.GetItems();
                 if (shipping == 1)
                 {
                     Console.WriteLine("Standard Shipping\n");
@@ -161,17 +162,25 @@ namespace MenuTemplateForINL1.Models
 
                     Console.WriteLine($"You currently have these items with a total sum of {ShoppingCart.sum}kr (VAT 25% included: {vat})\n");
 
-                    for (int i = 0; i < Program.itemList.Count; i++)
+                    foreach (var item in paymentItems)
                     {
-                        if (Program.itemList[i].Quantity > 0)
+                        if (item.Quantity > 0)
                         {
-                            Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name} ({Program.itemList[i].Quantity})");
-
-                            var item = db.Items.FirstOrDefault(c => c.Id == Program.itemList[i].Id);
-
-                            item.Inventory = Program.itemList[i].Inventory;
+                            Console.WriteLine($"{item.Id}: {item.Name} ({item.Quantity})");                            
                         }
                     }
+
+                    //for (int i = 0; i < Program.itemList.Count; i++)
+                    //{
+                    //    if (Program.itemList[i].Quantity > 0)
+                    //    {
+                    //        Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name} ({Program.itemList[i].Quantity})");
+
+                    //        var item = db.INL1Items.FirstOrDefault(c => c.Id == Program.itemList[i].Id);
+
+                    //        item.Inventory = Program.itemList[i].Inventory;
+                    //    }
+                    //}
 
 
                     Console.WriteLine("\nHow would you like to pay?\n\n");
@@ -213,7 +222,7 @@ namespace MenuTemplateForINL1.Models
                                 CustomerId = cusId,
                             };
 
-                            db.CardPaymentInfo.Add(newCardPaymentInfo);
+                            db.INL1CardPaymentInfo.Add(newCardPaymentInfo);
 
                             PaymentDone(shipping, paymentMethod, cusId);
 
@@ -239,7 +248,7 @@ namespace MenuTemplateForINL1.Models
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.InnerException.Message);
+                        Console.WriteLine(ex.InnerException?.Message);
                     }
                 }
             }
@@ -249,20 +258,26 @@ namespace MenuTemplateForINL1.Models
         {
             using (var db = new Models.MyDbContext())
             {
+                var finalItems = ItemStore.GetItems();
+
+                db.INL1Items.UpdateRange(finalItems);
+
+                db.INL1Categories.UpdateRange(ShoppingPage.categories);
+
                 Console.Clear();
 
                 int orderNumber = Random.Shared.Next(10000, 100000);
 
-                var customer = db.Customers.FirstOrDefault(v => v.Id == cusId);
+                var customer = db.INL1Customers.FirstOrDefault(v => v.Id == cusId);
 
                 var order = new PreviousOrder
                 {
                     OrderNum = orderNumber,
-                    CustomerId = customer.Id,
+                    CustomerId = customer?.Id,
                     Customer = customer,
                 };
 
-                db.PreviousOrders.Add(order);
+                db.INL1PreviousOrders.Add(order);
 
                 try
                 {
@@ -270,7 +285,7 @@ namespace MenuTemplateForINL1.Models
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.InnerException.Message);
+                    Console.WriteLine(ex.InnerException?.Message);
                 }
 
                 Console.WriteLine("Thank you for your purchase!\n");

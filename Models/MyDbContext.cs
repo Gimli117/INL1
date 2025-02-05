@@ -9,10 +9,11 @@ namespace MenuTemplateForINL1.Models
 {
     internal class MyDbContext : DbContext
     {
-        public DbSet<Item> Items { get; set; }                          // Table for all items
-        public DbSet<Customer> Customers { get; set; }                  // All customers that have placed orders in the webshop
-        public DbSet<PreviousOrder> PreviousOrders { get; set; }        // All completed orders which should include Order ID, which customer who made the purchase as well as purchased items
-        public DbSet<CardPaymentInfo> CardPaymentInfo { get; set; }     // Payment info for each customer
+        public DbSet<Item> INL1Items { get; set; }                          // Table for all items
+        public DbSet<Customer> INL1Customers { get; set; }                  // All customers that have placed orders in the webshop
+        public DbSet<PreviousOrder> INL1PreviousOrders { get; set; }        // All completed orders which should include Order ID, which customer who made the purchase as well as purchased items
+        public DbSet<CardPaymentInfo> INL1CardPaymentInfo { get; set; }     // Payment info for each customer
+        public DbSet<Category> INL1Categories { get; set; }                 // All categories
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)       // Entity Framework, AZURE FreeDB, server gimlidb
         {

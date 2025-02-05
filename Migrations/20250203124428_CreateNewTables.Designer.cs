@@ -4,6 +4,7 @@ using MenuTemplateForINL1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MenuTemplateForINL1.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250203124428_CreateNewTables")]
+    partial class CreateNewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("INL1CardPaymentInfo");
+                    b.ToTable("CardPaymentInfo");
                 });
 
             modelBuilder.Entity("MenuTemplateForINL1.Models.Category", b =>
@@ -65,7 +68,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("INL1Categories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MenuTemplateForINL1.Models.Customer", b =>
@@ -90,7 +93,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("INL1Customers");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("MenuTemplateForINL1.Models.Item", b =>
@@ -101,7 +104,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -129,7 +132,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("INL1Items");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("MenuTemplateForINL1.Models.PreviousOrder", b =>
@@ -150,7 +153,7 @@ namespace MenuTemplateForINL1.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("INL1PreviousOrders");
+                    b.ToTable("PreviousOrders");
                 });
 
             modelBuilder.Entity("MenuTemplateForINL1.Models.CardPaymentInfo", b =>
@@ -166,9 +169,7 @@ namespace MenuTemplateForINL1.Migrations
                 {
                     b.HasOne("MenuTemplateForINL1.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });

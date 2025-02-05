@@ -17,20 +17,29 @@ namespace MenuTemplateForINL1.Models
 
             using (var db = new Models.MyDbContext())
             {
+                var updatedItems = ItemStore.GetItems();
                 while (!quit && !Program.exit)
                 {
                     Console.WriteLine("This is your Shopping Cart. Your items are listed below:\n\n");
 
-                    int shopCartIndex = 0;
-
-                    foreach (var item in Program.itemList)                                                   // 7: Produkterna visas i lista
+                    foreach (var item in updatedItems)
                     {
-                        if (Program.itemList[shopCartIndex].Quantity > 0)
+                        if (item.Quantity > 0)
                         {
-                            Console.WriteLine($"Item{Program.itemList[shopCartIndex].Id}: {Program.itemList[shopCartIndex].Name}, {Program.itemList[shopCartIndex].Quantity} pieces - {Program.itemList[shopCartIndex].Price * Program.itemList[shopCartIndex].Quantity}kr");
+                            Console.WriteLine($"{item.Id}: {item.Name}, {item.Quantity} pieces - {item.Price * item.Quantity}kr");
                         }
-                        shopCartIndex++;
                     }
+
+                    //int shopCartIndex = 0;
+
+                    //foreach (var item in Program.itemList)                                                   // 7: Produkterna visas i lista
+                    //{
+                    //    if (Program.itemList[shopCartIndex].Quantity > 0)
+                    //    {
+                    //        Console.WriteLine($"Item{Program.itemList[shopCartIndex].Id}: {Program.itemList[shopCartIndex].Name}, {Program.itemList[shopCartIndex].Quantity} pieces - {Program.itemList[shopCartIndex].Price * Program.itemList[shopCartIndex].Quantity}kr");
+                    //    }
+                    //    shopCartIndex++;
+                    //}
                     Console.WriteLine($"\nTotal price: {sum}");                                               // 10: Priset och summan visas     
 
                     Console.WriteLine("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -71,113 +80,126 @@ namespace MenuTemplateForINL1.Models
             bool goBack = false;
             bool loop = true;
 
-            while (!goBack)
+            using (var db = new Models.MyDbContext())
             {
-                Console.Clear();
-
-                for (int i = 0; i < Program.itemList.Count; i++)
+                var cartItems = ItemStore.GetItems();
+                while (!goBack)
                 {
-                    if (Program.itemList[i].Quantity > 0)
+                    Console.Clear();
+
+                    foreach (var item in cartItems)
                     {
-                        Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name}, {Program.itemList[i].Quantity} pieces - {Program.itemList[i].Price * Program.itemList[i].Quantity}kr");
-                    }
-                }
-
-                Console.WriteLine("\nTo begin with, choose which item to change quantity. Type Q to go back to the Shopping Cart\n");
-
-                string? selectedId = Console.ReadLine();
-
-                if (int.TryParse(selectedId, out int id))
-                {
-                    var itemSelect = Program.itemList.FirstOrDefault(z => z.Id == id);
-
-                    if (itemSelect.Quantity > 0)
-                    {
-                        int inventoryMax = itemSelect.Inventory + itemSelect.Quantity;
-                        while (loop)
+                        if (item.Quantity > 0)
                         {
-                            Console.Clear();
+                            Console.WriteLine($"{item.Id}: {item.Name}, {item.Quantity} pieces - {item.Price * item.Quantity}kr");
+                        }
+                    }
 
-                            Console.WriteLine($"You have selected {itemSelect.Name} which you currently have {itemSelect.Quantity} of. {itemSelect.Inventory} left in stock.\n");
-                            Console.WriteLine("1 - Increase Quantity of item.");
-                            Console.WriteLine("2 - Decrease Quantity of item.");
-                            Console.WriteLine($"3 - Remove all {itemSelect.Name} from your Shopping Cart.");
-                            Console.WriteLine("X - Go back to Item Selection.");
+                    //for (int i = 0; i < db.INL1Items.Count(); i++)
+                    //{
+                    //    if (db.INL1Items[i].Quantity > 0)
+                    //    {
+                    //        Console.WriteLine($"{Program.itemList[i].Id}: {Program.itemList[i].Name}, {Program.itemList[i].Quantity} pieces - {Program.itemList[i].Price * Program.itemList[i].Quantity}kr");
+                    //    }
+                    //}
 
-                            ConsoleKeyInfo keySelect = Console.ReadKey(true);
+                    Console.WriteLine("\nTo begin with, choose which item to change quantity. Type Q to go back to the Shopping Cart\n");
 
-                            Console.Clear();
+                    string? selectedId = Console.ReadLine();
 
-                            switch (keySelect.Key)
+                    if (int.TryParse(selectedId, out int id))
+                    {
+                        var itemSelect = cartItems.FirstOrDefault(z => z.Id == id);
+
+                        if (itemSelect?.Quantity > 0)
+                        {
+                            int inventoryMax = itemSelect.Inventory + itemSelect.Quantity;
+                            while (loop)
                             {
-                                case ConsoleKey.D1:
-                                    if (itemSelect.Quantity < inventoryMax)
-                                    {
-                                        itemSelect.Quantity++;
-                                        itemSelect.Inventory--;
-                                        sum += itemSelect.Price;
-                                        Console.WriteLine("Quantity increased.");
-                                        Thread.Sleep(2000);
-                                    }
-                                    else if (itemSelect.Quantity == inventoryMax)
-                                    {
-                                        itemSelect.Quantity++;
-                                        itemSelect.Inventory = 0;
-                                        sum += itemSelect.Price;
-                                        Console.WriteLine("The item is now sold out!");
-                                        Thread.Sleep(2000);
-                                    }
-                                    break;
+                                Console.Clear();
 
-                                case ConsoleKey.D2:
-                                    if (itemSelect.Quantity > 1)
-                                    {
-                                        itemSelect.Quantity--;
-                                        itemSelect.Inventory++;
-                                        sum -= itemSelect.Price;
-                                        Console.WriteLine("Quantity decreased.");
-                                        Thread.Sleep(2000);
-                                    }
-                                    else if (itemSelect.Quantity == 1)
-                                    {
+                                Console.WriteLine($"You have selected {itemSelect.Name} which you currently have {itemSelect.Quantity} of. {itemSelect.Inventory} left in stock.\n");
+                                Console.WriteLine("1 - Increase Quantity of item.");
+                                Console.WriteLine("2 - Decrease Quantity of item.");
+                                Console.WriteLine($"3 - Remove all {itemSelect.Name} from your Shopping Cart.");
+                                Console.WriteLine("X - Go back to Item Selection.");
+
+                                ConsoleKeyInfo keySelect = Console.ReadKey(true);
+
+                                Console.Clear();
+
+                                switch (keySelect.Key)
+                                {
+                                    case ConsoleKey.D1:
+                                        if (itemSelect.Quantity < inventoryMax)
+                                        {
+                                            itemSelect.Quantity++;
+                                            itemSelect.Inventory--;
+                                            sum += itemSelect.Price;
+                                            Console.WriteLine("Quantity increased.");
+                                            Thread.Sleep(2000);
+                                        }
+                                        else if (itemSelect.Quantity == inventoryMax)
+                                        {
+                                            itemSelect.Quantity++;
+                                            itemSelect.Inventory = 0;
+                                            sum += itemSelect.Price;
+                                            Console.WriteLine("The item is now sold out!");
+                                            Thread.Sleep(2000);
+                                        }
+                                        break;
+
+                                    case ConsoleKey.D2:
+                                        if (itemSelect.Quantity > 1)
+                                        {
+                                            itemSelect.Quantity--;
+                                            itemSelect.Inventory++;
+                                            sum -= itemSelect.Price;
+                                            Console.WriteLine("Quantity decreased.");
+                                            Thread.Sleep(2000);
+                                        }
+                                        else if (itemSelect.Quantity == 1)
+                                        {
+                                            itemSelect.Quantity = 0;
+                                            itemSelect.Inventory++;
+                                            sum -= itemSelect.Price;
+                                            Console.WriteLine("Item removed.");
+                                            Thread.Sleep(2000);
+                                        }
+                                        break;
+
+                                    case ConsoleKey.D3:
+                                        sum -= (itemSelect.Price * itemSelect.Quantity);
+                                        itemSelect.Inventory = inventoryMax;
                                         itemSelect.Quantity = 0;
-                                        itemSelect.Inventory++;
-                                        sum -= itemSelect.Price;
                                         Console.WriteLine("Item removed.");
                                         Thread.Sleep(2000);
-                                    }
-                                    break;
+                                        break;
 
-                                case ConsoleKey.D3:
-                                    sum -= (itemSelect.Price * itemSelect.Quantity);
-                                    itemSelect.Inventory = inventoryMax;
-                                    itemSelect.Quantity = 0;
-                                    Console.WriteLine("Item removed.");
-                                    Thread.Sleep(2000);
-                                    break;
-
-                                case ConsoleKey.X:
-                                    loop = false;
-                                    break;
+                                    case ConsoleKey.X:
+                                        loop = false;
+                                        break;
+                                }
                             }
                         }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please select an item Id from your Shopping Cart.");
+                            Thread.Sleep(2000);
+                        }
+                    }
+                    else if (selectedId == "q")
+                    {
+                        ItemStore.SetItems(cartItems);
+                        goBack = true;
                     }
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Please select an item Id from your Shopping Cart.");
+                        Console.WriteLine("Invalid Input, enter a number.");
                         Thread.Sleep(2000);
                     }
-                }
-                else if (selectedId == "q")
-                {
-                    goBack = true;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Invalid Input, enter a number.");
-                    Thread.Sleep(2000);
                 }
             }
         }
