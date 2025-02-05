@@ -18,6 +18,13 @@ namespace MenuTemplateForINL1
 
             using (var db = new Models.MyDbContext())
             {
+                if (first)
+                {
+                    ShoppingPage.categories = db.INL1Categories.ToList();
+                }
+
+                first = false;
+
                 //Console.WriteLine("Fetching items from the database...\n");
                 //sw.Start();
                 //foreach (var item in await GetItems(db))
@@ -47,238 +54,233 @@ namespace MenuTemplateForINL1
 
                 //db.INL1Categories.AddRange(categories);
 
-                if (first)
-                {
-                    ShoppingPage.categories = db.INL1Categories.ToList();
-                }
+                //ShoppingPage.categories.AddRange(categories);
 
-                first = false;
+                // //Category 1: Drink Glass Coasters
+                // var items = new List<Item>
+                //{
+                //     new Item
+                //     {
+                //         Name = "Elegant Marble Coaster",
+                //         Description = "A sleek and modern coaster made of pure marble.",
+                //         Tag = new List<string> { "drink", "marble", "elegant" },
+                //         Price = 120,
+                //         Supplier = "MarbleCrafts",
+                //         Quantity = 0,
+                //         Inventory = 50,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 1,
+                //         Category = ShoppingPage.categories[0],
+                //     },
 
-                //Category 1: Drink Glass Coasters
-               // var items = new List<Item>
-               //{
-               //     new Item
-               //     {
-               //         Name = "Elegant Marble Coaster",
-               //         Description = "A sleek and modern coaster made of pure marble.",
-               //         Tag = new List<string> { "drink", "marble", "elegant" },
-               //         Price = 120,
-               //         Supplier = "MarbleCrafts",
-               //         Quantity = 0,
-               //         Inventory = 50,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 1,
-               //         Category = ShoppingPage.categories[0],
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Rustic Wooden Coaster",
+                //         Description = "Crafted from reclaimed wood, perfect for a natural touch.",
+                //         Tag = new List<string> { "drink", "wooden", "rustic" },
+                //         Price = 80,
+                //         Supplier = "EcoWare",
+                //         Quantity = 0,
+                //         Inventory = 75,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 1,
+                //         Category = ShoppingPage.categories[0]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Rustic Wooden Coaster",
-               //         Description = "Crafted from reclaimed wood, perfect for a natural touch.",
-               //         Tag = new List<string> { "drink", "wooden", "rustic" },
-               //         Price = 80,
-               //         Supplier = "EcoWare",
-               //         Quantity = 0,
-               //         Inventory = 75,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 1,
-               //         Category = ShoppingPage.categories[0]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Ceramic Art Coaster",
+                //         Description = "Hand-painted ceramic coaster, unique and colorful.",
+                //         Tag = new List<string> { "drink", "ceramic", "handmade" },
+                //         Price = 100,
+                //         Supplier = "Artisan Creations",
+                //         Quantity = 0,
+                //         Inventory = 40,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 1,
+                //         Category = ShoppingPage.categories[0]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Ceramic Art Coaster",
-               //         Description = "Hand-painted ceramic coaster, unique and colorful.",
-               //         Tag = new List<string> { "drink", "ceramic", "handmade" },
-               //         Price = 100,
-               //         Supplier = "Artisan Creations",
-               //         Quantity = 0,
-               //         Inventory = 40,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 1,
-               //         Category = ShoppingPage.categories[0]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Cork Classic Coaster",
+                //         Description = "A lightweight and durable cork coaster.",
+                //         Tag = new List<string> { "drink", "cork", "durable" },
+                //         Price = 50,
+                //         Supplier = "GreenCo",
+                //         Quantity = 0,
+                //         Inventory = 100,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 1,
+                //         Category = ShoppingPage.categories[0]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Cork Classic Coaster",
-               //         Description = "A lightweight and durable cork coaster.",
-               //         Tag = new List<string> { "drink", "cork", "durable" },
-               //         Price = 50,
-               //         Supplier = "GreenCo",
-               //         Quantity = 0,
-               //         Inventory = 100,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 1,
-               //         Category = ShoppingPage.categories[0]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Stone Slate Coaster",
+                //         Description = "Rustic slate coaster with a natural finish.",
+                //         Tag = new List<string> { "drink", "stone", "rustic" },
+                //         Price = 110,
+                //         Supplier = "NatureCraft",
+                //         Quantity = 0,
+                //         Inventory = 60,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 1,
+                //         Category = ShoppingPage.categories[0]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Stone Slate Coaster",
-               //         Description = "Rustic slate coaster with a natural finish.",
-               //         Tag = new List<string> { "drink", "stone", "rustic" },
-               //         Price = 110,
-               //         Supplier = "NatureCraft",
-               //         Quantity = 0,
-               //         Inventory = 60,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 1,
-               //         Category = ShoppingPage.categories[0]
-               //     },
+                //     //// Category 2: Beer Coasters
+                //     new Item
+                //     {
+                //         Name = "Vintage Beer Coaster",
+                //         Description = "Retro-style coaster with beer-themed prints.",
+                //         Tag = new List<string> { "beer", "vintage", "retro" },
+                //         Price = 70,
+                //         Supplier = "BrewStyle",
+                //         Quantity = 0,
+                //         Inventory = 80,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 2,
+                //         Category = ShoppingPage.categories[1]
+                //     },
 
-               //     //// Category 2: Beer Coasters
-               //     new Item
-               //     {
-               //         Name = "Vintage Beer Coaster",
-               //         Description = "Retro-style coaster with beer-themed prints.",
-               //         Tag = new List<string> { "beer", "vintage", "retro" },
-               //         Price = 70,
-               //         Supplier = "BrewStyle",
-               //         Quantity = 0,
-               //         Inventory = 80,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 2,
-               //         Category = ShoppingPage.categories[1]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Leather Beer Coaster",
+                //         Description = "Premium leather coaster with embossed design.",
+                //         Tag = new List<string> { "beer", "leather", "premium" },
+                //         Price = 150,
+                //         Supplier = "LuxCraft",
+                //         Quantity = 0,
+                //         Inventory = 30,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 2,
+                //         Category = ShoppingPage.categories[1]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Leather Beer Coaster",
-               //         Description = "Premium leather coaster with embossed design.",
-               //         Tag = new List<string> { "beer", "leather", "premium" },
-               //         Price = 150,
-               //         Supplier = "LuxCraft",
-               //         Quantity = 0,
-               //         Inventory = 30,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 2,
-               //         Category = ShoppingPage.categories[1]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Silicone Beer Coaster",
+                //         Description = "Non-slip silicone coaster, easy to clean.",
+                //         Tag = new List<string> { "beer", "silicone", "clean" },
+                //         Price = 60,
+                //         Supplier = "TechStyle",
+                //         Quantity = 0,
+                //         Inventory = 120,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 2,
+                //         Category = ShoppingPage.categories[1]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Silicone Beer Coaster",
-               //         Description = "Non-slip silicone coaster, easy to clean.",
-               //         Tag = new List<string> { "beer", "silicone", "clean" },
-               //         Price = 60,
-               //         Supplier = "TechStyle",
-               //         Quantity = 0,
-               //         Inventory = 120,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 2,
-               //         Category = ShoppingPage.categories[1]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Bottle Cap Coaster",
+                //         Description = "Fun coaster made from recycled bottle caps.",
+                //         Tag = new List<string> { "beer", "recycled", "cap" },
+                //         Price = 90,
+                //         Supplier = "EcoCraft",
+                //         Quantity = 0,
+                //         Inventory = 50,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 2,
+                //         Category = ShoppingPage.categories[1]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Bottle Cap Coaster",
-               //         Description = "Fun coaster made from recycled bottle caps.",
-               //         Tag = new List<string> { "beer", "recycled", "cap" },
-               //         Price = 90,
-               //         Supplier = "EcoCraft",
-               //         Quantity = 0,
-               //         Inventory = 50,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 2,
-               //         Category = ShoppingPage.categories[1]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Metallic Beer Coaster",
+                //         Description = "Stylish metallic coaster with a polished finish.",
+                //         Tag = new List<string> { "beer", "metallic", "stylish" },
+                //         Price = 130,
+                //         Supplier = "ShinyCraft",
+                //         Quantity = 0,
+                //         Inventory = 40,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 2,
+                //         Category = ShoppingPage.categories[1]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Metallic Beer Coaster",
-               //         Description = "Stylish metallic coaster with a polished finish.",
-               //         Tag = new List<string> { "beer", "metallic", "stylish" },
-               //         Price = 130,
-               //         Supplier = "ShinyCraft",
-               //         Quantity = 0,
-               //         Inventory = 40,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 2,
-               //         Category = ShoppingPage.categories[1]
-               //     },
+                //     //// Category 3: Specialty Coasters
+                //     new Item
+                //     {
+                //         Name = "Glow-in-the-Dark Coaster",
+                //         Description = "A fun coaster that glows in the dark.",
+                //         Tag = new List<string> { "special", "glow", "fun" },
+                //         Price = 100,
+                //         Supplier = "FunCraft",
+                //         Quantity = 0,
+                //         Inventory = 70,
+                //         IsSelectedByAdmin = true,
+                //         //CategoryId = 3,
+                //         Category = ShoppingPage.categories[2]
+                //     },
 
-               //     //// Category 3: Specialty Coasters
-               //     new Item
-               //     {
-               //         Name = "Glow-in-the-Dark Coaster",
-               //         Description = "A fun coaster that glows in the dark.",
-               //         Tag = new List<string> { "special", "glow", "fun" },
-               //         Price = 100,
-               //         Supplier = "FunCraft",
-               //         Quantity = 0,
-               //         Inventory = 70,
-               //         IsSelectedByAdmin = true,
-               //         //CategoryId = 3,
-               //         Category = ShoppingPage.categories[2]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Glass Coaster",
+                //         Description = "See-Through Coaster made from ordinary glass.",
+                //         Tag = new List<string> { "special", "glass", "clear" },
+                //         Price = 200,
+                //         Supplier = "CustomCraft",
+                //         Quantity = 0,
+                //         Inventory = 25,
+                //         IsSelectedByAdmin = true,
+                //         //CategoryId = 3,
+                //         Category = ShoppingPage.categories[2]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Glass Coaster",
-               //         Description = "See-Through Coaster made from ordinary glass.",
-               //         Tag = new List<string> { "special", "glass", "clear" },
-               //         Price = 200,
-               //         Supplier = "CustomCraft",
-               //         Quantity = 0,
-               //         Inventory = 25,
-               //         IsSelectedByAdmin = true,
-               //         //CategoryId = 3,
-               //         Category = ShoppingPage.categories[2]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Eco-Friendly Coaster",
+                //         Description = "Sustainable coaster made from recycled materials.",
+                //         Tag = new List<string> { "special", "eco", "sustainable" },
+                //         Price = 90,
+                //         Supplier = "GreenLife",
+                //         Quantity = 0,
+                //         Inventory = 80,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 3,
+                //         Category = ShoppingPage.categories[2]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Eco-Friendly Coaster",
-               //         Description = "Sustainable coaster made from recycled materials.",
-               //         Tag = new List<string> { "special", "eco", "sustainable" },
-               //         Price = 90,
-               //         Supplier = "GreenLife",
-               //         Quantity = 0,
-               //         Inventory = 80,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 3,
-               //         Category = ShoppingPage.categories[2]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Geode Crystal Coaster",
+                //         Description = "Unique coaster made from natural geode crystals.",
+                //         Tag = new List<string> { "special", "crystal", "geode" },
+                //         Price = 250,
+                //         Supplier = "GemCraft",
+                //         Quantity = 0,
+                //         Inventory = 20,
+                //         IsSelectedByAdmin = true,
+                //         //CategoryId = 3,
+                //         Category = ShoppingPage.categories[2]
+                //     },
 
-               //     new Item
-               //     {
-               //         Name = "Geode Crystal Coaster",
-               //         Description = "Unique coaster made from natural geode crystals.",
-               //         Tag = new List<string> { "special", "crystal", "geode" },
-               //         Price = 250,
-               //         Supplier = "GemCraft",
-               //         Quantity = 0,
-               //         Inventory = 20,
-               //         IsSelectedByAdmin = true,
-               //         //CategoryId = 3,
-               //         Category = ShoppingPage.categories[2]
-               //     },
+                //     new Item
+                //     {
+                //         Name = "Art Print Coaster",
+                //         Description = "Coaster featuring prints of famous artworks.",
+                //         Tag = new List<string> { "special", "art", "decorative" },
+                //         Price = 110,
+                //         Supplier = "ArtHouse",
+                //         Quantity = 0,
+                //         Inventory = 60,
+                //         IsSelectedByAdmin = false,
+                //         //CategoryId = 3,
+                //         Category = ShoppingPage.categories[2]
+                //     },
+                //};
 
-               //     new Item
-               //     {
-               //         Name = "Art Print Coaster",
-               //         Description = "Coaster featuring prints of famous artworks.",
-               //         Tag = new List<string> { "special", "art", "decorative" },
-               //         Price = 110,
-               //         Supplier = "ArtHouse",
-               //         Quantity = 0,
-               //         Inventory = 60,
-               //         IsSelectedByAdmin = false,
-               //         //CategoryId = 3,
-               //         Category = ShoppingPage.categories[2]
-               //     },
-               //};
-
-               // try
-               // {
-               //     db.INL1Items.AddRange(items);
-               //     db.SaveChanges();
-               // }
-               // catch (Exception ex)
-               // {
-               //     Console.WriteLine(ex.InnerException?.Message);
-               // }
+                // try
+                // {
+                //     db.INL1Items.AddRange(items);
+                //     db.SaveChanges();
+                // }
+                // catch (Exception ex)
+                // {
+                //     Console.WriteLine(ex.InnerException?.Message);
+                // }
 
                 while (!exit)
                 {
@@ -392,10 +394,6 @@ namespace MenuTemplateForINL1
                                 adminItem3.Inventory--;
                                 ShoppingCart.sum += adminItem3.Price;
                                 Console.WriteLine($"Item added to Shopping Cart. Current Quantity: {adminItem3.Quantity}");
-
-                                //itemList[adminItem3.Id-1].Quantity++;
-                                //itemList[adminItem3.Id-1].Inventory--;
-                                //ShoppingCart.sum += itemList[adminItem3.Id-1].Price;
                                 Thread.Sleep(2000);
                             }
                             else

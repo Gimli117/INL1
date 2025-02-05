@@ -262,7 +262,7 @@ namespace MenuTemplateForINL1.Models
 
                 db.INL1Items.UpdateRange(finalItems);
 
-                db.INL1Categories.UpdateRange(ShoppingPage.categories);
+                //db.INL1Categories.UpdateRange(ShoppingPage.categories);
 
                 Console.Clear();
 

@@ -86,12 +86,13 @@ namespace MenuTemplateForINL1.Models
 
             using (var db = new Models.MyDbContext())
             {
-                var manageItems = ItemStore.GetItems();
+                ShoppingPage.categories = db.INL1Categories.ToList();
                 while (!quit && !Program.exit)
                 {
+                    var manageItems = ItemStore.GetItems();
                     bool goBack = false;
 
-                    Console.WriteLine("Item Management. Choose an item from the list to edit. Type Q to go back or type exit to quit. Type S to save changes.\n");
+                    Console.WriteLine("Item Management. Choose an item from the list to edit. Type Q to go back or type exit to quit.\n");
                     Console.WriteLine("Listing all items here...\n");
 
                     Console.WriteLine("Id".PadRight(5) + "\t" + "Name".PadRight(30) + "\t" + "Category".PadRight(10) + "\t" + "Tags".PadRight(35) + "\t" + "Price".PadRight(15) + "\t" + "Stock".PadRight(10) + "\t\t" + "IsSelected" + "\n");
@@ -143,7 +144,17 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Name = newName;
-                                        //Program.itemList[selectedItem.Id-1].Name = newName;
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     break;
 
@@ -160,7 +171,17 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Description = newDescription;
-                                        //Program.itemList[selectedItem.Id-1].Description = newDescription;
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     break;
 
@@ -198,7 +219,17 @@ namespace MenuTemplateForINL1.Models
                                                 else
                                                 {
                                                     selectedItem.Tag[0] = newTag;
-                                                    //Program.itemList[selectedItem.Id].Tag[0] = newTag;
+
+                                                    try
+                                                    {
+                                                        db.SaveChanges();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Console.WriteLine(ex.InnerException?.Message);
+                                                    }
+
+                                                    ItemStore.SetItems(manageItems);
                                                 }
                                                 break;
 
@@ -215,7 +246,17 @@ namespace MenuTemplateForINL1.Models
                                                 else
                                                 {
                                                     selectedItem.Tag[1] = newTag;
-                                                    //Program.itemList[selectedItem.Id].Tag[1] = newTag;
+
+                                                    try
+                                                    {
+                                                        db.SaveChanges();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Console.WriteLine(ex.InnerException?.Message);
+                                                    }
+
+                                                    ItemStore.SetItems(manageItems);
                                                 }
                                                 break;
 
@@ -232,7 +273,17 @@ namespace MenuTemplateForINL1.Models
                                                 else
                                                 {
                                                     selectedItem.Tag[2] = newTag;
-                                                    //Program.itemList[selectedItem.Id].Tag[2] = newTag;
+
+                                                    try
+                                                    {
+                                                        db.SaveChanges();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        Console.WriteLine(ex.InnerException?.Message);
+                                                    }
+
+                                                    ItemStore.SetItems(manageItems);
                                                 }
                                                 break;
 
@@ -256,7 +307,17 @@ namespace MenuTemplateForINL1.Models
                                     else if (int.TryParse(newPrice, out int price))
                                     {
                                         selectedItem.Price = price;
-                                        //Program.itemList[selectedItem.Id-1].Price = price;
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     else
                                     {
@@ -279,7 +340,17 @@ namespace MenuTemplateForINL1.Models
                                     else
                                     {
                                         selectedItem.Supplier = newSupplier;
-                                        //Program.itemList[selectedItem.Id-1].Supplier = newSupplier;
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     break;
 
@@ -296,7 +367,17 @@ namespace MenuTemplateForINL1.Models
                                     else if (int.TryParse(newInventory, out int inventory))
                                     {
                                         selectedItem.Inventory = inventory;
-                                        //Program.itemList[selectedItem.Id-1].Inventory = inventory;
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     else
                                     {
@@ -327,12 +408,10 @@ namespace MenuTemplateForINL1.Models
                                         if (selectedItem.IsSelectedByAdmin)
                                         {
                                             selectedItem.IsSelectedByAdmin = false;
-                                            //Program.itemList[selectedItem.Id-1].IsSelectedByAdmin = false;
                                         }
                                         else if (!selectedItem.IsSelectedByAdmin && count < 3)                      // Maximum of 3 items on the Front Page
                                         {
                                             selectedItem.IsSelectedByAdmin = true;
-                                            //Program.itemList[selectedItem.Id-1].IsSelectedByAdmin = true;
                                         }
                                         else
                                         {
@@ -340,6 +419,17 @@ namespace MenuTemplateForINL1.Models
                                             Console.WriteLine("3 items selected already.");
                                             Thread.Sleep(2000);
                                         }
+
+                                        try
+                                        {
+                                            db.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex.InnerException?.Message);
+                                        }
+
+                                        ItemStore.SetItems(manageItems);
                                     }
                                     else
                                     {
@@ -357,7 +447,7 @@ namespace MenuTemplateForINL1.Models
                                         Console.WriteLine($"{category.Id}: {category.Name}");
                                     }
 
-                                    Console.WriteLine($"\n\nCurrent Category: {selectedItem.CategoryId} - {selectedItem.Category?.Name}\n");
+                                    Console.WriteLine($"\n\nCurrent Category: {selectedItem.CategoryId} - {ShoppingPage.categories[selectedItem.CategoryId-1].Name}\n");
                                     Console.WriteLine("Enter new Category\n");
                                     string? newCategory = Console.ReadLine();
                                     if (newCategory == "")
@@ -368,12 +458,23 @@ namespace MenuTemplateForINL1.Models
                                     }
                                     else if (int.TryParse(newCategory, out int category))
                                     {
-                                        var selectedCategory = ShoppingPage.categories.FirstOrDefault(c => c.Id == id);
+                                        var selectedCategory = ShoppingPage.categories.FirstOrDefault(c => c.Id == category);
 
                                         if (selectedCategory != null)
                                         {
-                                            selectedItem.CategoryId = id;
-                                            selectedItem.Category = ShoppingPage.categories[id - 1];
+                                            selectedItem.CategoryId = category;
+                                            //selectedItem.Category = ShoppingPage.categories[id-1];
+
+                                            try
+                                            {
+                                                db.SaveChanges();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.InnerException?.Message);
+                                            }
+
+                                            ItemStore.SetItems(manageItems);
                                         }
                                         else
                                         {
@@ -430,25 +531,6 @@ namespace MenuTemplateForINL1.Models
                     {
                         quit = true;
                         Program.exit = true;
-                    }
-                    else if (selectedId == "s")                                         // Admin is able to go back without saving changes
-                    {
-                        db.INL1Items.UpdateRange(manageItems);
-
-                        try
-                        {
-                            Console.Clear();
-                            db.SaveChanges();
-                            Console.WriteLine("Changes saved.");
-                            Thread.Sleep(2000);
-                            Console.Clear();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.InnerException?.Message);
-                        }
-
-                        ItemStore.SetItems(manageItems);
                     }
                     else
                     {
@@ -602,7 +684,7 @@ namespace MenuTemplateForINL1.Models
                             Inventory = itemInventory,
                             IsSelectedByAdmin = false,
                             CategoryId = itemCategoryId,
-                            Category = ShoppingPage.categories[itemCategoryId-1],
+                            //Category = ShoppingPage.categories[itemCategoryId-1],
                         };
 
                         ItemStore.AddItem(newitem);
@@ -629,62 +711,74 @@ namespace MenuTemplateForINL1.Models
         {
             bool quit = false;
 
-            while (!quit && !Program.exit)
+            using (var db = new Models.MyDbContext())
             {
-                Console.Clear();
-
-                Console.WriteLine("Category Management. Listing all Categories below. Type Q to go back or type exit to leave the Webshop.\n\n");
-
-                foreach (var category in ShoppingPage.categories)
+                ShoppingPage.categories = db.INL1Categories.ToList();
+                while (!quit && !Program.exit)
                 {
-                    Console.WriteLine($"{category.Id}: {category.Name}");
-                }
-                Console.WriteLine("\n\nSelect a Category Id to change its name.");
+                    Console.Clear();
 
-                string? selectedCategory = Console.ReadLine();
+                    Console.WriteLine("Category Management. Listing all Categories below. Type Q to go back or type exit to leave the Webshop.\n\n");
 
-                if (int.TryParse(selectedCategory, out int id))
-                {
-                    var categorySelected = ShoppingPage.categories.FirstOrDefault(i => i.Id == id);
-
-                    if (categorySelected != null)
+                    foreach (var category in ShoppingPage.categories)
                     {
-                        Console.WriteLine($"Current Category Name: {ShoppingPage.categories[id-1].Name}\n");
-                        Console.WriteLine("Enter new Category Name\n");
-                        string? newCategory = Console.ReadLine();
-                        if (newCategory == "")
+                        Console.WriteLine($"{category.Id}: {category.Name}");
+                    }
+                    Console.WriteLine("\n\nSelect a Category Id to change its name.\n\n");
+
+                    string? selectedCategory = Console.ReadLine();
+
+                    if (int.TryParse(selectedCategory, out int id))
+                    {
+                        var categorySelected = ShoppingPage.categories.FirstOrDefault(i => i.Id == id);
+
+                        if (categorySelected != null)
                         {
-                            Console.Clear();
-                            Console.WriteLine("Category wasn't changed.");
-                            Thread.Sleep(2000);
+                            Console.WriteLine($"Current Category Name: {ShoppingPage.categories[id - 1].Name}\n");
+                            Console.WriteLine("Enter new Category Name\n");
+                            string? newCategory = Console.ReadLine();
+                            if (newCategory == "")
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Category wasn't changed.");
+                                Thread.Sleep(2000);
+                            }
+                            else
+                            {
+                                ShoppingPage.categories[id - 1].Name = newCategory;
+
+                                try
+                                {
+                                    db.SaveChanges();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.InnerException?.Message);
+                                }
+                            }
                         }
                         else
                         {
-                            ShoppingPage.categories[id-1].Name = newCategory;
-                            //Program.itemList[selectedItem.Id-1].Supplier = newSupplier;
+                            Console.Clear();
+                            Console.WriteLine($"Category does not exist.");
+                            Thread.Sleep(2000);
                         }
+                    }
+                    else if (selectedCategory == "q")
+                    {
+                        quit = true;
+                    }
+                    else if (selectedCategory == "exit")
+                    {
+                        quit = true;
+                        Program.exit = true;
                     }
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine($"Category does not exist.");
+                        Console.WriteLine("Invalid Input, enter a number.");
                         Thread.Sleep(2000);
                     }
-                }
-                else if (selectedCategory == "q")
-                {
-                    quit = true;
-                }
-                else if (selectedCategory == "exit")
-                {
-                    quit = true;
-                    Program.exit = true;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Invalid Input, enter a number.");
-                    Thread.Sleep(2000);
                 }
             }
         }
@@ -724,8 +818,9 @@ namespace MenuTemplateForINL1.Models
                         Console.Clear();
                         Console.WriteLine($"Category {categoryName} added.");
 
-                        ShoppingPage.categories.Add(new Category { Name = categoryName });
-                        db.INL1Categories.Add(new Category { Name = categoryName });
+                        var newCategory = new Category { Name = categoryName };
+
+                        db.INL1Categories.Add(newCategory);
 
                         try
                         {
@@ -736,8 +831,12 @@ namespace MenuTemplateForINL1.Models
                             Console.WriteLine(ex.InnerException?.Message);
                         }
 
+                        ShoppingPage.categories.Add(newCategory);
+
                         Thread.Sleep(2000);
                         loop = false;
+
+                        
                     }
                 }
             }
