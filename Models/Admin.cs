@@ -966,7 +966,7 @@ namespace MenuTemplateForINL1.Models
             using (var connection = new SqlConnection(connString))
             {
                 string query = @"
-            UPDATE Customers 
+            UPDATE INL1Customers 
             SET Name = @Name, City = @City, Postal = @Postal, Street = @Street 
             WHERE Id = @Id";
 

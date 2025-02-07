@@ -28,14 +28,15 @@ namespace MenuTemplateForINL1.Models
 
                         Console.WriteLine("Welcome to the Shopping Page: Here are your keyboard shortcuts:\n");         // 3: Shopsida med minst tre kategorier
 
+                        Console.WriteLine("1 - List all items");
+                        Console.WriteLine("2 - Search box");
+                        Console.WriteLine("3 - View your Shopping Cart");
+
                         foreach (var category in shopCategories)
                         {
-                            Console.WriteLine($"{category.Id} - Choose Category {category.Name}");
+                            Console.WriteLine($"{category.Id+3} - Choose Category {category.Name}");
                         }
 
-                        Console.WriteLine($"{categories.Count+1} - List all items");
-                        Console.WriteLine($"{categories.Count+2} - Search box");
-                        Console.WriteLine($"{categories.Count+3} - View your Shopping Cart");
                         Console.WriteLine("Q - Go back to the Start page");
                         Console.WriteLine("\nESC - Exits the Webshop");
 
@@ -178,7 +179,7 @@ namespace MenuTemplateForINL1.Models
                                 break;
 
                             default:
-                                categoryKey = int.Parse(key.KeyChar.ToString());
+                                categoryKey = int.Parse(key.KeyChar.ToString())-3;
 
                                 Categories(categoryKey);
                                 break;
@@ -299,7 +300,7 @@ namespace MenuTemplateForINL1.Models
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Not a valid Category.");
+                        Console.WriteLine("Not a valid Category or Category does not contain any items.");
                         Thread.Sleep(2000);
                         Console.Clear();
                         quit = true;
